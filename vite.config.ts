@@ -2,9 +2,11 @@ import { defineConfig } from "vite"
 import path from "path"
 import vue from "@vitejs/plugin-vue"
 import { createHtmlPlugin } from "vite-plugin-html"
-import eslintPlugin from 'vite-plugin-eslint';
+import eslintPlugin from "vite-plugin-eslint"
 import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
+// @ts-ignore GitHub官方issue没有解决，暂时忽略
+import ElementPlus from "unplugin-element-plus/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 
 // https://vitejs.dev/config/
@@ -36,8 +38,8 @@ export default defineConfig({
       }
     }),
     eslintPlugin({
-			include: ['src/**/*.ts', 'src/**/*.vue', 'src/*.ts', 'src/*.vue'],
-		}),
+      include: ["src/**/*.ts", "src/**/*.vue", "src/*.ts", "src/*.vue"]
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),
@@ -48,7 +50,8 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [ElementPlusResolver()],
       dts: "src/components.d.ts"
-    })
+    }),
+    ElementPlus()
   ],
   build: {}
 })
