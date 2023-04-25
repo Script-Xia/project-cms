@@ -2,18 +2,31 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
+    // 目标代码使用的模块化方案
     "module": "ESNext",
+    // 使用 node 的模块解析方式
     "moduleResolution": "Node",
+    // 严格检查（any）
     "strict": true,
+    // 对 jsx 做怎样的处理
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // esmodule 和 commonjs 混合使用
     "esModuleInterop": true,
+    // 指定在项目中可以使用那些库的类型
     "lib": ["ESNext", "DOM"],
+    // 跳过一些库的类型检查
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["element-plus/global"]
+    // 指定具体要解析的类型
+    "types": ["element-plus/global"],
+    // 要不要生成 source-map 文件
+    "sourceMap": true,
+    // 文件路径在解析时的基本 url
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
