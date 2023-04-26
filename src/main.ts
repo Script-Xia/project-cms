@@ -2,7 +2,9 @@ import { createApp } from "vue"
 import { createPinia } from "pinia"
 import App from "./App.vue"
 import router from "./route"
-import ywRequest from "./service"
+import { useLoginStore } from "./store"
+import "normalize.css"
+import "./assets/css/index.less"
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -10,17 +12,5 @@ app.use(router)
 app.use(pinia)
 app.mount("#app")
 
-interface IDataCode {
-  data: object
-  returnCode: string
-  success: boolean
-}
-
-ywRequest
-  .request<IDataCode>({
-    url: "/home/multidata",
-    method: "GET"
-  })
-  .then(res => {
-    console.log(res)
-  })
+// 初始化 LoginStore
+useLoginStore().setupLoginStore()

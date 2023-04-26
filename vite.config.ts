@@ -27,9 +27,22 @@ export default defineConfig({
       {
         find: "components",
         replacement: path.resolve(__dirname, "@/components")
+      },
+      {
+        find: "view",
+        replacement: path.resolve(__dirname, "@/view")
       }
     ],
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"]
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://152.136.185.210:5000",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, "")
+      }
+    }
   },
   plugins: [
     vue(),

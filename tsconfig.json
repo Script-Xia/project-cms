@@ -24,7 +24,12 @@
     // 要不要生成 source-map 文件
     "sourceMap": true,
     // 文件路径在解析时的基本 url
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "view/*": ["src/view/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["node_modules"],

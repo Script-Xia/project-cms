@@ -1,3 +1,3 @@
-import useNameStore from "./modules/useNameStore"
+import useLoginStore from "./modules/login/useLoginStore"
 
-export { useNameStore }
+export { useLoginStore }
