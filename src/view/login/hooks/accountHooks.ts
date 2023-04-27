@@ -2,7 +2,7 @@ import { reactive } from "vue"
 import type { FormRules } from "element-plus"
 
 export const formRules = reactive<FormRules>({
-  username: [
+  name: [
     { required: true, message: "请输入登录账号", trigger: "blur" },
     {
       pattern: /^[a-zA-Z0-9]{8,12}$/,
@@ -13,8 +13,8 @@ export const formRules = reactive<FormRules>({
   password: [
     { required: true, message: "请输入密码", trigger: "blur" },
     {
-      pattern: /^[a-zA-Z0-9]{8,12}$/,
-      message: "密码必须是8-12个字母或数字",
+      pattern: /^[a-zA-Z0-9]{6,12}$/,
+      message: "密码必须是6-12个字母或数字",
       trigger: "blur"
     }
   ]

@@ -1,29 +1,29 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs v-model="activeName" class="tabs" stretch>
-      <el-tab-pane name="accountNumber">
+    <ElTabs v-model="activeName" class="tabs" stretch>
+      <ElTabPane name="accountNumber">
         <template #label>
           <span class="custom-tabs-label">
-            <el-icon><i-ep-user /></el-icon>
+            <ElIcon><IEpUser /></ElIcon>
             <span>账号登录</span>
           </span>
         </template>
         <LoginAccount ref="loginAccountRef"></LoginAccount>
-      </el-tab-pane>
-      <el-tab-pane name="phone">
+      </ElTabPane>
+      <ElTabPane name="phone">
         <template #label>
           <span class="custom-tabs-label">
-            <el-icon><i-ep-Iphone /></el-icon>
+            <ElIcon><IEpIphone /></ElIcon>
             <span>手机登录</span>
           </span>
         </template>
         <LoginPhone ref="loginPhoneRef"></LoginPhone>
-      </el-tab-pane>
-    </el-tabs>
+      </ElTabPane>
+    </ElTabs>
     <div class="login-btn">
-      <el-button type="primary" size="large" @click="handelLoginClick"
-        >登录</el-button
+      <ElButton type="primary" size="large" @click="handelLoginClick"
+        >登录</ElButton
       >
     </div>
   </div>

@@ -1,36 +1,38 @@
 <template>
   <div class="login-account">
-    <el-form :rules="rules" :model="account" ref="formRef">
-      <el-form-item prop="username">
-        <el-input v-model="account.username" placeholder="登录账号"></el-input>
-      </el-form-item>
-      <el-form-item prop="password" class="pwd-form-item">
-        <el-input
+    <ElForm :rules="rules" :model="account" ref="formRef">
+      <ElFormItem prop="name">
+        <ElInput v-model="account.name" placeholder="登录账号"></ElInput>
+      </ElFormItem>
+      <ElFormItem prop="password" class="pwd-form-item">
+        <ElInput
           show-password
           v-model="account.password"
           placeholder="密码"
-        ></el-input>
-      </el-form-item>
-    </el-form>
+        ></ElInput>
+      </ElFormItem>
+    </ElForm>
     <div class="pwd-ctrl">
-      <el-checkbox v-model="isKeepPwd">记住密码</el-checkbox>
-      <el-link type="primary" :underline="false">忘记密码</el-link>
+      <ElCheckbox v-model="isKeepPwd">记住密码</ElCheckbox>
+      <ElLink type="primary" :underline="false">忘记密码</ElLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, watch } from "vue"
+import { useRouter } from "vue-router"
 import { ElForm } from "element-plus"
 import { formRules } from "../hooks/accountHooks"
 import { useLoginStore } from "@/store"
 import localCache from "@/utils/cache"
 
 const account = reactive({
-  username: localCache.getCache("username") ?? "",
+  name: localCache.getCache("name") ?? "",
   password: localCache.getCache("password") ?? ""
 })
 
+const router = useRouter()
 const isKeepPwd = ref(localCache.getCache("isKeepPwd"))
 const formRef = ref<InstanceType<typeof ElForm>>()
 const rules = formRules
@@ -44,19 +46,21 @@ if (isKeepPwd.value === undefined) {
 }
 
 const loginAction = () => {
-  formRef.value?.validate(isValid => {
+  formRef.value?.validate(async isValid => {
     if (isValid) {
       // 判断是否需要记住密码
       if (isKeepPwd.value) {
         // 本地缓存
-        localCache.setCache("username", account.username)
+        localCache.setCache("name", account.name)
         localCache.setCache("password", account.password)
       } else {
-        localCache.deleteCache("username")
+        localCache.deleteCache("name")
         localCache.deleteCache("password")
       }
       // 登录
-      useLoginStore().accountLoginAction({ ...account })
+      await useLoginStore().accountLoginAction({ ...account })
+      // 跳转到首页
+      router.push("/main")
     }
   })
 }

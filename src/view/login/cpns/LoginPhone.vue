@@ -1,36 +1,36 @@
 <template>
   <div class="login-phone">
-    <el-form :rules="rules" :model="phone">
-      <el-form-item prop="number">
-        <el-input v-model="phone.number" placeholder="手机号码">
+    <ElForm :rules="rules" :model="phone">
+      <ElFormItem prop="number">
+        <ElInput v-model="phone.number" placeholder="手机号码">
           <template #prepend>
-            <el-select
+            <ElSelect
               v-model="country"
               filterable
               :filter-method="fileterSelectOpts"
               style="width: 90px"
               @change="selectChange"
             >
-              <el-option-group>
-                <el-option disabled value="选择国家/地区"></el-option>
-              </el-option-group>
+              <ElOptionGroup>
+                <ElOption disabled value="选择国家/地区"></ElOption>
+              </ElOptionGroup>
               <template v-for="item in phoneCodeList" :key="item.value">
-                <el-option :value="item.code">{{ item.value }}</el-option>
+                <ElOption :value="item.code">{{ item.value }}</ElOption>
               </template>
-            </el-select>
+            </ElSelect>
           </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="verificationCode">
+        </ElInput>
+      </ElFormItem>
+      <ElFormItem prop="verificationCode">
         <div class="code">
-          <el-input
+          <ElInput
             v-model="phone.verificationCode"
             placeholder="验证码"
-          ></el-input>
-          <el-button type="primary" class="get-code-btn">获取验证码</el-button>
+          ></ElInput>
+          <ElButton type="primary" class="get-code-btn">获取验证码</ElButton>
         </div>
-      </el-form-item>
-    </el-form>
+      </ElFormItem>
+    </ElForm>
   </div>
 </template>
 

@@ -1,12 +1,10 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <RouterView></RouterView>
   </div>
 </template>
 
-<script setup lang="ts">
-const name = "string"
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="less">
 .app {

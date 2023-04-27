@@ -4,7 +4,7 @@ import { ILoginResult, IDataType } from "./type"
 
 enum LoginUrl {
   AccountLogin = "/login",
-  LoginUserInfo = "/users",
+  LoginUserInfo = "/users/",
   UserMenus = "/role/"
 }
 

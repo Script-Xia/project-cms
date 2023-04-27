@@ -1,5 +1,4 @@
 import axios from "axios"
-import { ElLoading } from "element-plus"
 import type { AxiosInstance } from "axios"
 import type { YWRequestConfig, YWRequestInterceptors } from "./type"
 import type { LoadingInstance } from "element-plus/lib/components/loading/src/loading"

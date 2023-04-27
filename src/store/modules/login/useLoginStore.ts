@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import { ref, reactive } from "vue"
-import { useRouter } from "vue-router"
 import { IAccountLogin, IPhoneLogin } from "view/login/type"
 import {
   accountLoginRequest,
@@ -30,9 +29,6 @@ const useLoginStore = defineStore("login", () => {
     const menus = (await getUserMenuByRoleId(userInfo.role.id)).data
     userMenus = reactive(menus)
     localCache.setCache("userMenus", menus)
-
-    // 跳转到首页
-    useRouter().push("/main")
   }
 
   const phoneLoginAction = (payload: IPhoneLogin) => {
