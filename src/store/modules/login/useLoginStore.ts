@@ -10,8 +10,8 @@ import localCache from "@/utils/cache"
 
 const useLoginStore = defineStore("login", () => {
   const token = ref("")
-  let userInfo
-  let userMenus
+  const userInfo = ref()
+  const userMenus = ref()
 
   const accountLoginAction = async (payload: IAccountLogin) => {
     // 登录系统
@@ -22,12 +22,12 @@ const useLoginStore = defineStore("login", () => {
 
     // 根据用户 ID 得到用户信息
     const info = (await getUserInfoById(id)).data
-    userInfo = reactive(info)
+    userInfo.value = info
     localCache.setCache("userInfo", info)
 
     // 请求用户菜单
-    const menus = (await getUserMenuByRoleId(userInfo.role.id)).data
-    userMenus = reactive(menus)
+    const menus = (await getUserMenuByRoleId(userInfo.value.role.id)).data
+    userMenus.value = menus
     localCache.setCache("userMenus", menus)
   }
 
@@ -41,10 +41,10 @@ const useLoginStore = defineStore("login", () => {
     if (localToken) token.value = localToken
 
     const localUserInfo = localCache.getCache("userInfo")
-    if (localUserInfo) userInfo = reactive(localUserInfo)
+    if (localUserInfo) userInfo.value = localUserInfo
 
     const localUserMenus = localCache.getCache("userMenus")
-    if (localUserMenus) userMenus = reactive(localUserMenus)
+    if (localUserMenus) userMenus.value = localUserMenus
   }
 
   return {
