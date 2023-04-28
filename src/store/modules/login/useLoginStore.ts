@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { ref, reactive } from "vue"
-import { IAccountLogin, IPhoneLogin } from "view/login/type"
+import { IAccountLogin, IPhoneLogin } from "views/login/type"
 import {
   accountLoginRequest,
   getUserInfoById,

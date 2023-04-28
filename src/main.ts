@@ -1,7 +1,7 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import App from "./App.vue"
-import router from "./route"
+import router from "./router"
 import { useLoginStore } from "./store"
 import "normalize.css"
 import "./assets/css/index.less"

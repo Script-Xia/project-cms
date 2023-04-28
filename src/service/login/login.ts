@@ -1,5 +1,5 @@
 import { ywRequest } from "../index"
-import { IAccountLogin } from "view/login/type"
+import { IAccountLogin } from "views/login/type"
 import { ILoginResult, IDataType } from "./type"
 
 enum LoginUrl {
