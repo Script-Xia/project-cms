@@ -22,7 +22,7 @@ const router: Router = createRouter({
   history: createWebHistory()
 })
 
-router.beforeEach((router, to) => {
+router.beforeEach(to => {
   if (to.path !== "/login") {
     const token = localCache.getCache("token")
     if (!token) return "/login"
