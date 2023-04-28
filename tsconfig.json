@@ -20,7 +20,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     // 指定具体要解析的类型
-    "types": ["element-plus/global", "node", "webpack-env"],
+    "types": ["element-plus/global", "vite/client"],
     // 要不要生成 source-map 文件
     "sourceMap": true,
     // 文件路径在解析时的基本 url
