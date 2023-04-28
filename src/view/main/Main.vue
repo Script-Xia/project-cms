@@ -1,13 +1,12 @@
 <template>
   <div class="main">
     <ElContainer class="main-content">
-      <!-- :width="isCollapse ? '60px' : '210px'" -->
-      <ElAside width="210px">
-        <NavMenu />
+      <ElAside :width="isCollapse ? '70px' : '210px'" class="aside-transition">
+        <NavMenu :is-collapse="isCollapse" />
       </ElAside>
       <ElContainer class="page">
         <ElHeader class="page-header">
-          <!-- <nav-header @foldChange="handleFoldChange" /> -->
+          <NavHeader @fold-change="handleFoldChange" />
         </ElHeader>
         <ElMain class="page-content">
           <div class="page-info">
@@ -20,7 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import NavMenu from "@/components/nav-menu"
+import NavMenu from "components/nav-menu"
+import NavHeader from "components/nav-header"
+import { ref } from "vue"
+
+const isCollapse = ref(false)
+
+const handleFoldChange = (isFold: boolean) => {
+  isCollapse.value = isFold
+}
 </script>
 
 <style scoped lang="less">
@@ -35,6 +42,12 @@ import NavMenu from "@/components/nav-menu"
 .main-content,
 .page {
   height: 100%;
+}
+
+.main-content {
+  .aside-transition {
+    transition: width 0.4s linear;
+  }
 }
 
 .page-content {

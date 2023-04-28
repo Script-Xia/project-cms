@@ -2,7 +2,7 @@
   <div class="nav-menu">
     <div class="logo">
       <img src="~@/assets/img/logo.svg" alt="logo" class="img" />
-      <span class="title">Vue3+TS</span>
+      <span v-show="!isCollapse" class="title">Vue3+TS</span>
     </div>
     <ElMenu
       default-active="2"
@@ -10,6 +10,7 @@
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
+      :collapse="props.isCollapse"
     >
       <template v-for="menu in userMenus" :key="menu.id">
         <template v-if="menu.type === 1">
@@ -32,10 +33,23 @@
 </template>
 
 <script setup lang="ts">
+import MenuIcon from "@/base-ui/MenuIcon.vue"
 import { ref, computed } from "vue"
 import { useLoginStore } from "@/store"
-import MenuIcon from "./MenuIcon.vue"
 
+// interface prop {
+//   isCollapse?: boolean
+// }
+
+// const props = withDefaults(defineProps<prop>(), {
+//   isCollapse: false
+// })
+const props = defineProps({
+  isCollapse: {
+    type: Boolean,
+    defalut: false
+  }
+})
 const userMenus = computed(() => useLoginStore().userMenus)
 </script>
 

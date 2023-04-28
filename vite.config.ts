@@ -26,11 +26,11 @@ export default defineConfig({
       },
       {
         find: "components",
-        replacement: path.resolve(__dirname, "@/components")
+        replacement: path.resolve(__dirname, "src/components")
       },
       {
         find: "view",
-        replacement: path.resolve(__dirname, "@/view")
+        replacement: path.resolve(__dirname, "src/view")
       }
     ],
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"]
