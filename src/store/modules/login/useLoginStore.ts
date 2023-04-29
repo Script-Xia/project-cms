@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { ref, reactive } from "vue"
+import router from "@/router"
 import { IAccountLogin, IPhoneLogin } from "views/login/type"
 import {
   accountLoginRequest,
@@ -7,11 +8,21 @@ import {
   getUserMenuByRoleId
 } from "@/service/login/login"
 import localCache from "@/utils/cache"
+import mapMenusToRoute from "@/utils/mapMenus"
 
 const useLoginStore = defineStore("login", () => {
   const token = ref("")
   const userInfo = ref()
   const userMenus = ref()
+  const firstMenu = ref()
+
+  const registerRoute = (meuns: any[]) => {
+    const routes = mapMenusToRoute(meuns)
+    routes.forEach((route, index) => {
+      router.addRoute("main", route)
+      if (index === 0) firstMenu.value = route
+    })
+  }
 
   const accountLoginAction = async (payload: IAccountLogin) => {
     // 登录系统
@@ -28,6 +39,8 @@ const useLoginStore = defineStore("login", () => {
     // 请求用户菜单
     const menus = (await getUserMenuByRoleId(userInfo.value.role.id)).data
     userMenus.value = menus
+    // 根据菜单信息动态注册路由
+    registerRoute(menus)
     localCache.setCache("userMenus", menus)
   }
 
@@ -44,13 +57,17 @@ const useLoginStore = defineStore("login", () => {
     if (localUserInfo) userInfo.value = localUserInfo
 
     const localUserMenus = localCache.getCache("userMenus")
-    if (localUserMenus) userMenus.value = localUserMenus
+    if (localUserMenus) {
+      userMenus.value = localUserMenus
+      registerRoute(localUserMenus)
+    }
   }
 
   return {
     token,
     userInfo,
     userMenus,
+    firstMenu,
     accountLoginAction,
     phoneLoginAction,
     setupLoginStore

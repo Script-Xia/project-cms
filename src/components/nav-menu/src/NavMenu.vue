@@ -5,7 +5,7 @@
       <span v-show="!isCollapse" class="title">Vue3+TS</span>
     </div>
     <ElMenu
-      default-active="2"
+      :default-active="activeItem"
       class="el-menu-vertical"
       background-color="#0c2135"
       text-color="#b7bdc3"
@@ -20,9 +20,11 @@
               <span>{{ menu.name }}</span>
             </template>
             <template v-for="menuItem in menu.children" :key="menuItem.id">
-              <ElMenuItem :index="`${menuItem.id}`">{{
-                menuItem.name
-              }}</ElMenuItem>
+              <ElMenuItem
+                :index="`${menuItem.id}`"
+                @click="handleNavItemClick(menuItem)"
+                >{{ menuItem.name }}</ElMenuItem
+              >
             </template>
           </ElSubMenu>
         </template>
@@ -33,24 +35,33 @@
 </template>
 
 <script setup lang="ts">
-import MenuIcon from "@/base-ui/MenuIcon.vue"
 import { ref, computed } from "vue"
 import { useLoginStore } from "@/store"
+import { useRouter, useRoute } from "vue-router"
+import { pathMapToRoute } from "@/utils/mapMenus"
+import MenuIcon from "@/base-ui/MenuIcon.vue"
 
-// interface prop {
-//   isCollapse?: boolean
-// }
-
-// const props = withDefaults(defineProps<prop>(), {
-//   isCollapse: false
-// })
-const props = defineProps({
-  isCollapse: {
-    type: Boolean,
-    defalut: false
-  }
+interface prop {
+  isCollapse?: boolean
+}
+const props = withDefaults(defineProps<prop>(), {
+  isCollapse: false
 })
+
+const router = useRouter()
+const route = useRoute()
 const userMenus = computed(() => useLoginStore().userMenus)
+
+// 根据当前路由路径获取活跃的菜单选项id
+const currentPath = route.path
+const currentMenu = pathMapToRoute(userMenus.value, currentPath)
+const activeItem = ref<string>(`${currentMenu.id}`)
+
+const handleNavItemClick = (menuItem: any) => {
+  router.push({
+    path: menuItem.url ?? "not-found"
+  })
+}
 </script>
 
 <style scoped lang="less">
