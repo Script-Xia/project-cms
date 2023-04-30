@@ -30,7 +30,7 @@ export function pathMapToRoute(menus: any[], currentPath: string): any {
   for (const menu of menus) {
     if (menu.type === 1) {
       const currentMenu = pathMapToRoute(menu.children, currentPath)
-      return currentMenu
+      if (currentMenu) return currentMenu
     } else if (menu.type === 2 && menu.url === currentPath) {
       return menu
     }
