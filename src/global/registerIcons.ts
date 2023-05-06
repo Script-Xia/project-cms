@@ -7,7 +7,9 @@ import {
   Monitor,
   ChatLineRound,
   Setting,
-  User
+  User,
+  Bell,
+  CollectionTag
 } from "@element-plus/icons-vue"
 
 const icons = [
@@ -18,7 +20,9 @@ const icons = [
   Monitor,
   ChatLineRound,
   Setting,
-  User
+  User,
+  Bell,
+  CollectionTag
 ]
 
 export function registerIcons(vm: App) {

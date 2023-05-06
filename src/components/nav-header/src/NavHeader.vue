@@ -5,10 +5,10 @@
       class="fold-icon"
       @click="handleFoldClick"
     ></MenuIcon>
-    <Breadcrumb
-      :breadcrumbs="breadcrumbs"
-      style="margin-left: 10px"
-    ></Breadcrumb>
+    <div class="content">
+      <Breadcrumb :breadcrumbs="breadcrumbs" style="margin-left: 10px" />
+      <UserInfo />
+    </div>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ import { useRoute } from "vue-router"
 import { useLoginStore } from "@/store"
 import MenuIcon from "@/base-ui/menuIcon"
 import Breadcrumb from "@/base-ui/menuBreadcrumb"
+import UserInfo from "./UserInfo.vue"
 import { pathMapToBreadcrumb } from "@/utils/mapMenus"
 
 const route = useRoute()
@@ -47,9 +48,16 @@ const handleFoldClick = () => {
 .nav-header {
   display: flex;
   align-items: center;
+  width: 100%;
   .fold-icon {
     font-size: 26px;
     cursor: pointer;
+  }
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 }
 </style>
