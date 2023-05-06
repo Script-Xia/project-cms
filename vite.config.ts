@@ -4,8 +4,8 @@ import vue from "@vitejs/plugin-vue"
 import { createHtmlPlugin } from "vite-plugin-html"
 import eslintPlugin from "vite-plugin-eslint"
 // ElementPlus 图标自动导入
-import Icons from "unplugin-icons/vite"
-import IconsResolver from "unplugin-icons/resolver"
+// import Icons from "unplugin-icons/vite"
+// import IconsResolver from "unplugin-icons/resolver"
 // vite 自动导入组件
 import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
@@ -60,11 +60,11 @@ export default defineConfig({
     AutoImport({
       // 自动导入 Element Plus 相关函数
       resolvers: [
-        ElementPlusResolver(),
+        ElementPlusResolver()
         // 自动导入图标组件
-        IconsResolver({
-          prefix: "Icon"
-        })
+        // IconsResolver({
+        //   prefix: "Icon"
+        // })
       ],
       dts: path.resolve(pathSrc, "auto-imports.d.ts")
     }),
@@ -76,17 +76,17 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [
         // 自动注册图标组件
-        IconsResolver({
-          enabledCollections: ["ep"]
-        }),
+        // IconsResolver({
+        //   enabledCollections: ["ep"]
+        // }),
         // 自动导入 Element Plus 组件
         ElementPlusResolver()
       ],
       dts: path.resolve(pathSrc, "components.d.ts")
     }),
-    Icons({
-      autoInstall: true
-    }),
+    // Icons({
+    //   autoInstall: true
+    // }),
     ElementPlus()
   ]
 })

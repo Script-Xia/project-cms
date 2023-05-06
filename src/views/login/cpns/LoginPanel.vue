@@ -5,7 +5,7 @@
       <ElTabPane name="accountNumber">
         <template #label>
           <span class="custom-tabs-label">
-            <ElIcon><IEpUser /></ElIcon>
+            <MenuIcon icon="User"></MenuIcon>
             <span>账号登录</span>
           </span>
         </template>
@@ -14,7 +14,7 @@
       <ElTabPane name="phone">
         <template #label>
           <span class="custom-tabs-label">
-            <ElIcon><IEpIphone /></ElIcon>
+            <MenuIcon icon="Iphone"></MenuIcon>
             <span>手机登录</span>
           </span>
         </template>
@@ -30,9 +30,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue"
 import LoginAccount from "./LoginAccount.vue"
 import LoginPhone from "./LoginPhone.vue"
-import { ref } from "vue"
+import MenuIcon from "@/base-ui/menuIcon"
 
 const activeName = ref("accountNumber")
 const loginAccountRef = ref<InstanceType<typeof LoginAccount>>()

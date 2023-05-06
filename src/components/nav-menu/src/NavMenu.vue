@@ -16,7 +16,10 @@
         <template v-if="menu.type === 1">
           <ElSubMenu :index="`${menu.id}`">
             <template #title>
-              <MenuIcon v-if="menu.icon" :icon="menu.icon"></MenuIcon>
+              <MenuIcon
+                v-if="menu.icon"
+                :icon="changeIconName(menu.icon)"
+              ></MenuIcon>
               <span>{{ menu.name }}</span>
             </template>
             <template v-for="menuItem in menu.children" :key="menuItem.id">
@@ -39,7 +42,7 @@ import { ref, computed } from "vue"
 import { useLoginStore } from "@/store"
 import { useRouter, useRoute } from "vue-router"
 import { pathMapToRoute } from "@/utils/mapMenus"
-import MenuIcon from "@/base-ui/MenuIcon.vue"
+import MenuIcon from "@/base-ui/menuIcon"
 
 interface prop {
   isCollapse?: boolean
@@ -61,6 +64,18 @@ const handleNavItemClick = (menuItem: any) => {
   router.push({
     path: menuItem.url ?? "not-found"
   })
+}
+
+// 修改后台传来的组件图标名称
+const changeIconName = (name: string): string => {
+  let iconName = ""
+  name
+    .split("el-icon-")[1]
+    .split("-")
+    .forEach(item => {
+      iconName += item.substring(0, 1).toUpperCase() + item.substring(1)
+    })
+  return iconName
 }
 </script>
 
