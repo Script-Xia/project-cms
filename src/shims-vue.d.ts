@@ -7,5 +7,13 @@ declare module "*.vue" {
   export default component
 }
 
+declare module "vue" {
+  interface ComponentCustomProperties {
+    $filters: any
+  }
+}
+
 declare module "element-plus/dist/locale/zh-cn.mjs"
 declare const BASE_URL: string
+
+export {}
