@@ -18,7 +18,7 @@ const icons = [
 ]
 
 // 注册全局 ElementUI 组件
-export function registerELements(vm: App) {
+export default function registerELements(vm: App) {
   for (const icon of icons) {
     vm.component(icon.name, icon)
   }
