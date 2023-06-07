@@ -4,44 +4,46 @@ export const searchFormConfig: IForm = {
     {
       type: "input",
       field: "name",
-      label: "姓名",
-      placeholder: "请输入你的姓名"
+      label: "用户名",
+      placeholder: "请输入用户名"
+    },
+    {
+      type: "input",
+      field: "realname",
+      label: "真实姓名",
+      placeholder: "请输入真实姓名"
     },
     {
       type: "input",
       field: "cellphone",
       label: "手机号码",
-      placeholder: "请输入你的手机号码"
+      placeholder: "请输入手机号码"
     },
     {
       type: "select",
-      field: "hobby",
-      label: "爱好",
-      placeholder: "请选择你的爱好",
+      field: "enable",
+      label: "用户状态",
+      placeholder: "请选择用户的状态",
       options: [
         {
-          label: "唱",
-          value: "sing"
+          label: "启用",
+          value: 1
         },
         {
-          label: "跳",
-          value: "dance"
-        },
-        {
-          label: "rap",
-          value: "rap"
-        },
-        {
-          label: "篮球",
-          value: "basketball"
+          label: "禁用",
+          value: 0
         }
       ]
     },
     {
       type: "date-picker",
-      field: "createTime",
+      field: "createAt",
       label: "创建时间",
-      placeholder: "请输入创建时间"
+      otherConfig: {
+        startPlaceholder: "开始时间",
+        endPlaceholder: "结束时间",
+        type: "daterange"
+      }
     }
   ]
 }
