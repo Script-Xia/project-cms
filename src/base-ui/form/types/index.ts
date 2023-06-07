@@ -2,7 +2,7 @@ export interface ISelectOption {
   // 展示文本
   label: string
   // 获取的值
-  value: string
+  value: string | number
 }
 
 export interface IItemConfig {

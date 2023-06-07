@@ -41,17 +41,24 @@ interface IProp {
 }
 
 const props = defineProps<IProp>()
-
 const store = useSystemStore()
-store.getPageListAction({
-  pageName: props.pageName,
-  queryInfo: {
-    offset: 0,
-    size: 10
-  }
-})
+
+const getPageList = (queryInfo: any = {}) => {
+  store.getPageListAction({
+    pageName: props.pageName,
+    queryInfo: {
+      offset: 0,
+      size: 10,
+      ...queryInfo
+    }
+  })
+}
+getPageList()
+
 const dataList = computed(() => (store as any)[`${props.pageName}List`])
 const totalCount = computed(() => (store as any)[`${props.pageName}Count`])
+
+defineExpose({ getPageList })
 </script>
 
 <style scoped lang="less">

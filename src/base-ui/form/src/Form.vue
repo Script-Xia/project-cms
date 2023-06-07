@@ -25,6 +25,7 @@
                   <ElOption
                     v-for="option in item.options"
                     :key="option.value"
+                    :label="option.label"
                     :value="option.value"
                     >{{ option.label }}</ElOption
                   >
@@ -69,11 +70,8 @@ const props = withDefaults(defineProps<IProp>(), {
 })
 const emit = defineEmits(["update:modelValue"])
 const componentName = (type: string) => `el-${type}`
+// 通过浅拷贝获得传入表单数据对象的拷贝
 const formData = ref({ ...props.modelValue })
-
-// const handleValueChange = (value: string, field: string) => {
-//   emit("update:modelValue", { ...props.modelValue, [field]: value })
-// }
 
 watch(
   formData,
