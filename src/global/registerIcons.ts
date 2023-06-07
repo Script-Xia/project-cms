@@ -9,7 +9,9 @@ import {
   Setting,
   User,
   Bell,
-  CollectionTag
+  CollectionTag,
+  Edit,
+  Delete
 } from "@element-plus/icons-vue"
 
 const icons = [
@@ -22,10 +24,12 @@ const icons = [
   Setting,
   User,
   Bell,
-  CollectionTag
+  CollectionTag,
+  Edit,
+  Delete
 ]
 
-export function registerIcons(vm: App) {
+export default function registerIcons(vm: App) {
   for (const icon of icons) {
     vm.component(icon.name, icon)
   }
