@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { ref, reactive } from "vue"
+import { ref } from "vue"
 import router from "@/router"
 import { IAccountLogin, IPhoneLogin } from "views/login/type"
 import {
