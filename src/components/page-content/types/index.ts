@@ -10,3 +10,8 @@ export interface IContentTableConfig {
   showSelectColumn?: boolean
   [key: string]: any
 }
+
+export interface IPagination {
+  pageSize: number
+  currentPage: number
+}

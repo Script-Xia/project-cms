@@ -22,7 +22,6 @@
         <ElTable
           ref="dataTable"
           :data="listData"
-          :show-overflow-tooltip="showOverflowTooltip"
           @selection-change="handleSelectionChange"
         >
           <ElTableColumn
@@ -54,8 +53,12 @@
             <ElPagination
               background
               layout="total, sizes, prev, pager, next, jumper"
-              :page-sizes="[100, 200, 300, 400]"
+              :current-page="pagination.currentPage"
+              :page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 30]"
               :total="total"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
             />
           </slot>
         </div>
@@ -67,23 +70,35 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import type { IPropList } from "../types"
+import type { IPagination } from "components/page-content/types"
 
 interface IProp {
+  // 表格内容数据集合
   listData: any[]
+  // 表格表头数据集合
   propList: IPropList[]
+  // 分页器的配置
+  pagination?: IPagination
+  // 表格标题
   title?: string
+  // 表格总数据数
   total?: number
-  showOverflowTooltip?: boolean
+  // 表格序号列
   showIndexColumn?: boolean
+  // 表格多选列
   showSelectColumn?: boolean
 }
 
 const props = withDefaults(defineProps<IProp>(), {
   showIndexColumn: false,
   showSelectColumn: false,
-  showOverflowTooltip: true
+  pagination: () => ({
+    pageSize: 10,
+    currentPage: 1
+  })
 })
 
+const emits = defineEmits(["update:pagination"])
 const selectionRows = ref<any[]>([])
 const dataTable = ref()
 
@@ -91,9 +106,18 @@ const handleSelectionChange = (val: any[]) => {
   selectionRows.value = val
 }
 
+// 清空选中项
 const handleClearSelection = () => {
   selectionRows.value = []
   dataTable.value.clearSelection()
+}
+
+const handleSizeChange = (pageSize: number) => {
+  emits("update:pagination", { ...props.pagination, pageSize })
+}
+
+const handleCurrentChange = (currentPage: number) => {
+  emits("update:pagination", { ...props.pagination, currentPage })
 }
 </script>
 

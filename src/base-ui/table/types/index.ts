@@ -2,5 +2,7 @@ export interface IPropList {
   prop?: string
   label: string
   slotName?: string
-  [key: string]: string | undefined
+  // 当内容过长被隐藏时显示 tooltip
+  showOverflowTooltip?: boolean
+  [key: string]: any
 }

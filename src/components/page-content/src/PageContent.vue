@@ -2,6 +2,7 @@
   <div class="table-content">
     <YWTable
       v-bind="contentTableConfig"
+      v-model:pagination="paginationInfo"
       :total="totalCount"
       :list-data="dataList"
     >
@@ -26,11 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { ref, computed, watch } from "vue"
 import { useSystemStore } from "@/store"
 import { Edit, Delete } from "@element-plus/icons-vue"
-import type { IContentTableConfig } from "../types"
-import type { PageName } from "../types"
+import type { PageName, IContentTableConfig, IPagination } from "../types"
 import YWTable from "@/base-ui/table"
 
 interface IProp {
@@ -43,12 +43,21 @@ interface IProp {
 const props = defineProps<IProp>()
 const store = useSystemStore()
 
+// 表格分页器的配置
+const paginationInfo = ref<IPagination>({
+  pageSize: 10,
+  currentPage: 1
+})
+
+watch(paginationInfo, () => getPageList())
+
 const getPageList = (queryInfo: any = {}) => {
   store.getPageListAction({
     pageName: props.pageName,
     queryInfo: {
-      offset: 0,
-      size: 10,
+      offset:
+        paginationInfo.value.pageSize * (paginationInfo.value.currentPage - 1),
+      size: paginationInfo.value.pageSize,
       ...queryInfo
     }
   })
