@@ -6,6 +6,7 @@
       :total="totalCount"
       :list-data="dataList"
     >
+      <!-- 公用的表格插槽 -->
       <template #status="{ row }">
         <ElTag :type="row.enable ? 'success' : 'danger'">
           {{ row.enable ? "启用" : "禁用" }}
@@ -22,6 +23,15 @@
         &nbsp;
         <ElLink type="primary" :underline="false" :icon="Delete"> 删除 </ElLink>
       </template>
+
+      <!-- 组件特有的表格插槽 -->
+      <template
+        v-for="prop in slotPropList"
+        :key="prop.prop"
+        #[prop.slotName]="{ row }"
+      >
+        <slot :name="prop.slotName" :row="row"></slot>
+      </template>
     </YWTable>
   </div>
 </template>
@@ -31,6 +41,7 @@ import { ref, computed, watch } from "vue"
 import { useSystemStore } from "@/store"
 import { Edit, Delete } from "@element-plus/icons-vue"
 import type { PageName, IContentTableConfig, IPagination } from "../types"
+import type { IPropList } from "@/base-ui/table/types"
 import YWTable from "@/base-ui/table"
 
 interface IProp {
@@ -48,9 +59,9 @@ const paginationInfo = ref<IPagination>({
   pageSize: 10,
   currentPage: 1
 })
-
 watch(paginationInfo, () => getPageList())
 
+// 发送请求得到表格数据
 const getPageList = (queryInfo: any = {}) => {
   store.getPageListAction({
     pageName: props.pageName,
@@ -66,6 +77,14 @@ getPageList()
 
 const dataList = computed(() => (store as any)[`${props.pageName}List`])
 const totalCount = computed(() => (store as any)[`${props.pageName}Count`])
+
+// 从表格配置项中过滤出组件独有的插槽prop列表
+const slotPropList: any = computed(() => {
+  const publicSlots = ["status", "createAt", "updateAt", "operate"]
+  return props.contentTableConfig.propList.filter((prop: IPropList) => {
+    if (prop.slotName && !publicSlots.includes(prop.slotName)) return true
+  })
+})
 
 defineExpose({ getPageList })
 </script>
