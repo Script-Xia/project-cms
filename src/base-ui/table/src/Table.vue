@@ -4,7 +4,7 @@
       <ElTabPane :label="title">
         <div class="header">
           <slot name="header">
-            <slot name="headerHandler">
+            <slot name="headerHandler" v-if="showAddBtn">
               <ElButton type="primary">新增</ElButton>
             </slot>
             <ElAlert v-if="showSelectColumn" show-icon>
@@ -87,6 +87,7 @@ interface IProp {
   showFooter?: boolean
   // 表格总数据数
   total?: number
+  showAddBtn?: boolean
   // 表格序号列
   showIndexColumn?: boolean
   // 表格多选列
@@ -96,6 +97,7 @@ interface IProp {
 const props = withDefaults(defineProps<IProp>(), {
   showIndexColumn: false,
   showSelectColumn: false,
+  showAddBtn: true,
   showFooter: true,
   pagination: () => ({
     pageSize: 10,

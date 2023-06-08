@@ -8,14 +8,20 @@ import {
   getUserMenuByRoleId
 } from "@/service/login/login"
 import localCache from "@/utils/cache"
-import mapMenusToRoute from "@/utils/mapMenus"
+import { mapMenusToRoute, mapMenusToPermission } from "@/utils/mapMenus"
 
 const useLoginStore = defineStore("login", () => {
   const token = ref("")
+  // 用户信息
   const userInfo = ref()
+  // 用户权限可看到的菜单列表
   const userMenus = ref()
+  // 默认展示的菜单
   const firstMenu = ref()
+  // 用户按钮权限
+  const permissions = ref()
 
+  // 注册路由
   const registerRoute = (meuns: any[]) => {
     const routes = mapMenusToRoute(meuns)
     routes.forEach((route, index) => {
@@ -42,6 +48,9 @@ const useLoginStore = defineStore("login", () => {
     // 根据菜单信息动态注册路由
     registerRoute(menus)
     localCache.setCache("userMenus", menus)
+    // 根据菜单信息获取用户按钮权限
+    permissions.value = mapMenusToPermission(menus)
+    localCache.setCache("permissions", permissions)
   }
 
   const phoneLoginAction = (payload: IPhoneLogin) => {
@@ -61,6 +70,9 @@ const useLoginStore = defineStore("login", () => {
       userMenus.value = localUserMenus
       registerRoute(localUserMenus)
     }
+
+    const localPermissions = localCache.getCache("permissions")
+    if (localPermissions) permissions.value = localPermissions
   }
 
   return {
@@ -68,6 +80,7 @@ const useLoginStore = defineStore("login", () => {
     userInfo,
     userMenus,
     firstMenu,
+    permissions,
     accountLoginAction,
     phoneLoginAction,
     setupLoginStore

@@ -1,6 +1,7 @@
 <template>
   <div class="user">
     <PageSearch
+      v-if="isSearch"
       :search-form-config="searchFormConfig"
       @search-data="handleSearch"
       @reset-data="handleReset"
@@ -32,7 +33,8 @@ import { contentTableConfig } from "./config/content.config"
 import PageSearch from "@/components/page-search"
 import PageContent from "@/components/page-content"
 
-const { pageContentRef, handleSearch, handleReset } = usePageSearch()
+const { pageContentRef, isSearch, handleSearch, handleReset } =
+  usePageSearch("goods")
 </script>
 
 <style scoped lang="less"></style>

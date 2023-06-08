@@ -3,6 +3,7 @@
     <YWTable
       v-bind="contentTableConfig"
       v-model:pagination="paginationInfo"
+      :show-add-btn="isAdd"
       :total="totalCount"
       :list-data="dataList"
     >
@@ -18,10 +19,19 @@
       <template #updateAt="{ row }">
         {{ $filters.formatTime(row.updateAt) }}
       </template>
-      <template #operate>
-        <ElLink type="primary" :underline="false" :icon="Edit"> 编辑 </ElLink>
+      <template v-if="isEdit || isDelete" #operate>
+        <ElLink v-if="isEdit" type="primary" :underline="false" :icon="Edit">
+          编辑
+        </ElLink>
         &nbsp;
-        <ElLink type="primary" :underline="false" :icon="Delete"> 删除 </ElLink>
+        <ElLink
+          v-if="isDelete"
+          type="primary"
+          :underline="false"
+          :icon="Delete"
+        >
+          删除
+        </ElLink>
       </template>
 
       <!-- 组件特有的表格插槽 -->
@@ -40,6 +50,7 @@
 import { ref, computed, watch } from "vue"
 import { useSystemStore } from "@/store"
 import { Edit, Delete } from "@element-plus/icons-vue"
+import { usePermission } from "@/hooks/usePermission"
 import type { PageName, IContentTableConfig } from "../types"
 import type { IPropList, IPagination } from "@/base-ui/table/types"
 import YWTable from "@/base-ui/table"
@@ -53,6 +64,11 @@ interface IProp {
 
 const props = defineProps<IProp>()
 const store = useSystemStore()
+
+// 得到按钮的权限
+const isAdd = usePermission(props.pageName, "create")
+const isEdit = usePermission(props.pageName, "update")
+const isDelete = usePermission(props.pageName, "delete")
 
 // 表格分页器的配置
 const paginationInfo = ref<IPagination>({
@@ -74,7 +90,6 @@ const getPageList = (queryInfo: any = {}) => {
   })
 }
 getPageList()
-
 const dataList = computed(() => (store as any)[`${props.pageName}List`])
 const totalCount = computed(() => (store as any)[`${props.pageName}Count`])
 

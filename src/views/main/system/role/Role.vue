@@ -1,16 +1,30 @@
 <template>
   <div class="user">
-    <PageSearch :search-form-config="searchFormConfig" />
-    <PageContent :content-table-config="contentTableConfig" page-name="role" />
+    <PageSearch
+      v-if="isSearch"
+      :search-form-config="searchFormConfig"
+      @search-data="handleSearch"
+      @reset-data="handleReset"
+    />
+    <PageContent
+      ref="pageContentRef"
+      :content-table-config="contentTableConfig"
+      page-name="role"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { usePageSearch } from "@/hooks/usePageSearch"
+
 import { searchFormConfig } from "./config/search.config"
 import { contentTableConfig } from "./config/content.config"
 
 import PageSearch from "@/components/page-search"
 import PageContent from "@/components/page-content"
+
+const { pageContentRef, isSearch, handleSearch, handleReset } =
+  usePageSearch("role")
 </script>
 
 <style scoped lang="less"></style>
