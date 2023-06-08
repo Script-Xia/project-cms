@@ -6,3 +6,15 @@ export interface IPropList {
   showOverflowTooltip?: boolean
   [key: string]: any
 }
+
+export interface IChildrenProps {
+  rowKey: string
+  treeProp: {
+    children: string
+  }
+}
+
+export interface IPagination {
+  pageSize: number
+  currentPage: number
+}

@@ -10,12 +10,15 @@ const useSystemStore = defineStore("system", () => {
   const roleCount = ref(0)
   const goodsList = ref([])
   const goodsCount = ref(0)
+  const menuList = ref([])
+  const menuCount = ref(0)
 
   // 建立pageName和对应数据的映射关系
   const pageNameMap = {
     users: [usersList, usersCount],
     role: [roleList, roleCount],
-    goods: [goodsList, goodsCount]
+    goods: [goodsList, goodsCount],
+    menu: [menuList, menuCount]
   }
 
   const getPageListAction = async (payload: IPageListQuery) => {
@@ -39,6 +42,8 @@ const useSystemStore = defineStore("system", () => {
     roleCount,
     goodsList,
     goodsCount,
+    menuList,
+    menuCount,
     getPageListAction
   }
 })

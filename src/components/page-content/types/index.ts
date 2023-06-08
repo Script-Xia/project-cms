@@ -1,16 +1,12 @@
-import type { IPropList } from "@/base-ui/table/types"
+import type { IPropList, IChildrenProps } from "@/base-ui/table/types"
 
-export type PageName = "users" | "role" | "goods"
+export type PageName = "users" | "role" | "goods" | "menu"
 
 export interface IContentTableConfig {
   propList: IPropList[]
   title: string
   showIndexColumn?: boolean
   showSelectColumn?: boolean
+  childrenProps?: IChildrenProps
   [key: string]: any
-}
-
-export interface IPagination {
-  pageSize: number
-  currentPage: number
 }

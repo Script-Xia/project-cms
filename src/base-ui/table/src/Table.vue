@@ -21,6 +21,7 @@
         </div>
         <ElTable
           ref="dataTable"
+          v-bind="childrenProps"
           :data="listData"
           @selection-change="handleSelectionChange"
         >
@@ -48,7 +49,7 @@
             </ElTableColumn>
           </template>
         </ElTable>
-        <div class="footer">
+        <div class="footer" v-if="showFooter">
           <slot name="footer">
             <ElPagination
               background
@@ -69,18 +70,21 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import type { IPropList } from "../types"
-import type { IPagination } from "components/page-content/types"
+import type { IPropList, IChildrenProps, IPagination } from "../types"
 
 interface IProp {
   // 表格内容数据集合
   listData: any[]
   // 表格表头数据集合
   propList: IPropList[]
-  // 分页器的配置
-  pagination?: IPagination
   // 表格标题
   title?: string
+  // 树形表格配置
+  childrenProps?: IChildrenProps
+  // 分页器的配置
+  pagination?: IPagination
+  // 是否展示底部（分页器）内容
+  showFooter?: boolean
   // 表格总数据数
   total?: number
   // 表格序号列
@@ -92,6 +96,7 @@ interface IProp {
 const props = withDefaults(defineProps<IProp>(), {
   showIndexColumn: false,
   showSelectColumn: false,
+  showFooter: true,
   pagination: () => ({
     pageSize: 10,
     currentPage: 1
@@ -112,10 +117,10 @@ const handleClearSelection = () => {
   dataTable.value.clearSelection()
 }
 
+// 分页器页数和每页展示数量变化时调用
 const handleSizeChange = (pageSize: number) => {
   emits("update:pagination", { ...props.pagination, pageSize })
 }
-
 const handleCurrentChange = (currentPage: number) => {
   emits("update:pagination", { ...props.pagination, currentPage })
 }

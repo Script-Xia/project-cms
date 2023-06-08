@@ -40,8 +40,8 @@
 import { ref, computed, watch } from "vue"
 import { useSystemStore } from "@/store"
 import { Edit, Delete } from "@element-plus/icons-vue"
-import type { PageName, IContentTableConfig, IPagination } from "../types"
-import type { IPropList } from "@/base-ui/table/types"
+import type { PageName, IContentTableConfig } from "../types"
+import type { IPropList, IPagination } from "@/base-ui/table/types"
 import YWTable from "@/base-ui/table"
 
 interface IProp {
