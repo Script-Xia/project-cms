@@ -19,19 +19,30 @@
       <template #updateAt="{ row }">
         {{ $filters.formatTime(row.updateAt) }}
       </template>
-      <template v-if="isEdit || isDelete" #operate>
+      <template v-if="isEdit || isDelete" #operate="{ row }">
         <ElLink v-if="isEdit" type="primary" :underline="false" :icon="Edit">
           编辑
         </ElLink>
         &nbsp;
-        <ElLink
-          v-if="isDelete"
-          type="primary"
-          :underline="false"
-          :icon="Delete"
+        <ElPopconfirm
+          width="220"
+          placement="top"
+          icon-color="#626AEF"
+          title="确认要删除这条数据吗？"
+          :icon="InfoFilled"
+          @confirm="handleDelete(row)"
         >
-          删除
-        </ElLink>
+          <template #reference>
+            <ElLink
+              v-if="isDelete"
+              type="primary"
+              :underline="false"
+              :icon="Delete"
+            >
+              删除
+            </ElLink>
+          </template>
+        </ElPopconfirm>
       </template>
 
       <!-- 组件特有的表格插槽 -->
@@ -49,7 +60,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue"
 import { useSystemStore } from "@/store"
-import { Edit, Delete } from "@element-plus/icons-vue"
+import { Edit, Delete, InfoFilled } from "@element-plus/icons-vue"
 import { usePermission } from "@/hooks/usePermission"
 import type { PageName, IContentTableConfig } from "../types"
 import type { IPropList, IPagination } from "@/base-ui/table/types"
@@ -100,6 +111,17 @@ const slotPropList: any = computed(() => {
     if (prop.slotName && !publicSlots.includes(prop.slotName)) return true
   })
 })
+
+// 删除表格数据
+const handleDelete = (row: any) => {
+  store.deletePageListAction({
+    id: row.id,
+    pageName: props.pageName
+  })
+
+  // 获取最新数据刷新表格
+  getPageList(store.queryInfo)
+}
 
 defineExpose({ getPageList })
 </script>

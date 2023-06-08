@@ -1,9 +1,17 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-import type { IPageListQuery } from "./type"
-import { getPageListData } from "@/service/main/system/system"
+import { ref, reactive } from "vue"
+import type { IPageListQuery, IDeleteListDataPayload } from "./type"
+import {
+  getPageListData,
+  deletePageListData
+} from "@/service/main/system/system"
 
 const useSystemStore = defineStore("system", () => {
+  // 页面中的查询参数
+  const queryInfo = ref({
+    pageSize: 10,
+    currentPage: 1
+  })
   const usersList = ref([])
   const usersCount = ref(0)
   const roleList = ref([])
@@ -30,12 +38,20 @@ const useSystemStore = defineStore("system", () => {
     const pageList = await getPageListData(url, payload.queryInfo)
     const { list, totalCount } = pageList.data
 
-    // 根据pageName保存对应的数据
+    // 根据pageName保存映射关系表中对应的数据
     pageNameMap[`${pageName}`][0].value = list
     pageNameMap[`${pageName}`][1].value = totalCount
   }
 
+  // 删除表格数据
+  const deletePageListAction = async (payload: IDeleteListDataPayload) => {
+    const { id, pageName } = payload
+    const url = `/${pageName}/${id}`
+    deletePageListData(url)
+  }
+
   return {
+    queryInfo,
     usersList,
     usersCount,
     roleList,
@@ -44,7 +60,8 @@ const useSystemStore = defineStore("system", () => {
     goodsCount,
     menuList,
     menuCount,
-    getPageListAction
+    getPageListAction,
+    deletePageListAction
   }
 })
 

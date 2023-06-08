@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue"
+import { useSystemStore } from "@/store"
 import { Refresh, Search } from "@element-plus/icons-vue"
 import type { IForm } from "@/base-ui/form"
 import YWFrom from "@/base-ui/form"
@@ -25,6 +26,7 @@ interface IProp {
 
 const props = defineProps<IProp>()
 const emits = defineEmits(["resetData", "searchData"])
+const store = useSystemStore()
 
 // formData中的数据是动态决定的
 // 双向绑定的数据要根据配置文件中的field来决定
@@ -37,6 +39,8 @@ const formData = ref(originData)
 
 // 根据表单内容搜索表格数据
 const handleSearch = () => {
+  // 将搜索的内容保存到 store 中
+  store.queryInfo = Object.assign({}, store.queryInfo, formData.value)
   emits("searchData", formData.value)
 }
 

@@ -4,3 +4,8 @@ export interface IPageListQuery {
   pageName: PageName
   queryInfo: { [key: string]: any }
 }
+
+export interface IDeleteListDataPayload {
+  id: number
+  pageName: PageName
+}

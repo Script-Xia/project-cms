@@ -70,6 +70,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
+import { useSystemStore } from "@/store"
 import type { IPropList, IChildrenProps, IPagination } from "../types"
 
 interface IProp {
@@ -106,6 +107,7 @@ const props = withDefaults(defineProps<IProp>(), {
 })
 
 const emits = defineEmits(["update:pagination"])
+const store = useSystemStore()
 const selectionRows = ref<any[]>([])
 const dataTable = ref()
 
@@ -121,9 +123,11 @@ const handleClearSelection = () => {
 
 // 分页器页数和每页展示数量变化时调用
 const handleSizeChange = (pageSize: number) => {
+  store.queryInfo.pageSize = pageSize
   emits("update:pagination", { ...props.pagination, pageSize })
 }
 const handleCurrentChange = (currentPage: number) => {
+  store.queryInfo.currentPage = currentPage
   emits("update:pagination", { ...props.pagination, currentPage })
 }
 </script>

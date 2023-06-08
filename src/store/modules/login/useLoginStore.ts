@@ -50,7 +50,7 @@ const useLoginStore = defineStore("login", () => {
     localCache.setCache("userMenus", menus)
     // 根据菜单信息获取用户按钮权限
     permissions.value = mapMenusToPermission(menus)
-    localCache.setCache("permissions", permissions)
+    localCache.setCache("permissions", permissions.value)
   }
 
   const phoneLoginAction = (payload: IPhoneLogin) => {

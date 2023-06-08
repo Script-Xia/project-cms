@@ -7,3 +7,9 @@ export const getPageListData = (url: string, queryInfo: any) => {
     data: queryInfo
   })
 }
+
+export const deletePageListData = (url: string) => {
+  return ywRequest.delete<IDataType>({
+    url
+  })
+}
