@@ -1,3 +1,3 @@
-export { default } from "./src/Form.vue"
+export { default } from "./src/StandardForm.vue"
 
 export * from "./types"

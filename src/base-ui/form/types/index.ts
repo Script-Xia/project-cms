@@ -1,3 +1,4 @@
+import type { FormRules } from "element-plus"
 export interface ISelectOption {
   // 展示文本
   label: string
@@ -21,9 +22,9 @@ export interface IItemConfig {
   // 是否禁用
   disabled?: boolean
   // 是否必填
-  required?: boolean
+  required?: boolean | ((value: any, data: any) => boolean)
   // 校验规则集
-  rules?: any[]
+  rules?: FormRules[] | FormRules
   // 如果表单子项类型为 select，options 表示 select 子项的数据集合
   options?: ISelectOption[]
   // 其他配置

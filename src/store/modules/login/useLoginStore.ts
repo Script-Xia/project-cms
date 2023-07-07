@@ -1,12 +1,13 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import router from "@/router"
-import { IAccountLogin, IPhoneLogin } from "views/login/type"
+import type { IAccountLogin, IPhoneLogin } from "views/login/type"
 import {
   accountLoginRequest,
   getUserInfoById,
   getUserMenuByRoleId
 } from "@/service/login/login"
+import { useSystemStore } from "@/store"
 import localCache from "@/utils/cache"
 import { mapMenusToRoute, mapMenusToPermission } from "@/utils/mapMenus"
 
@@ -73,6 +74,23 @@ const useLoginStore = defineStore("login", () => {
 
     const localPermissions = localCache.getCache("permissions")
     if (localPermissions) permissions.value = localPermissions
+
+    // 初始化部门和角色列表
+    const systemStore = useSystemStore()
+    systemStore.getPageListAction({
+      pageName: "department",
+      queryInfo: {
+        size: 100,
+        offset: 0
+      }
+    })
+    systemStore.getPageListAction({
+      pageName: "role",
+      queryInfo: {
+        size: 100,
+        offset: 0
+      }
+    })
   }
 
   return {

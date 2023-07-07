@@ -1,1 +1,1 @@
-export { default } from "./src/Table.vue"
+export { default } from "./src/StandardTable.vue"

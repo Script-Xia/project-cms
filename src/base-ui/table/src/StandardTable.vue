@@ -4,20 +4,21 @@
       <ElTabPane :label="title">
         <div class="header">
           <slot name="header">
-            <slot name="headerHandler" v-if="showAddBtn">
-              <ElButton type="primary">新增</ElButton>
-            </slot>
-            <ElAlert v-if="showSelectColumn" show-icon>
-              <template #title>
-                <span>已选择</span>
-                <span class="quantity-selected">
-                  &nbsp; {{ selectionRows.length }} &nbsp;
-                </span>
-                <span>项</span>
-                <span class="clear" @click="handleClearSelection">清空</span>
-              </template>
-            </ElAlert>
+            <ElButton v-if="showAddBtn" type="primary" @click="handleAddData"
+              >新增</ElButton
+            >
+            <slot name="headerHandler"> </slot>
           </slot>
+          <ElAlert v-if="showSelectColumn" show-icon>
+            <template #title>
+              <span>已选择</span>
+              <span class="quantity-selected">
+                &nbsp; {{ selectionRows.length }} &nbsp;
+              </span>
+              <span>项</span>
+              <span class="clear" @click="handleClearSelection">清空</span>
+            </template>
+          </ElAlert>
         </div>
         <ElTable
           ref="dataTable"
@@ -106,7 +107,7 @@ const props = withDefaults(defineProps<IProp>(), {
   })
 })
 
-const emits = defineEmits(["update:pagination"])
+const emits = defineEmits(["update:pagination", "add"])
 const store = useSystemStore()
 const selectionRows = ref<any[]>([])
 const dataTable = ref()
@@ -119,6 +120,11 @@ const handleSelectionChange = (val: any[]) => {
 const handleClearSelection = () => {
   selectionRows.value = []
   dataTable.value.clearSelection()
+}
+
+// 新增表格数据
+const handleAddData = () => {
+  emits("add")
 }
 
 // 分页器页数和每页展示数量变化时调用

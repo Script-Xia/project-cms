@@ -1,16 +1,18 @@
 import { defineStore } from "pinia"
-import { ref, reactive } from "vue"
+import { ref } from "vue"
 import type { IPageListQuery, IDeleteListDataPayload } from "./type"
 import {
   getPageListData,
+  createPageData,
+  editPageData,
   deletePageListData
 } from "@/service/main/system/system"
 
 const useSystemStore = defineStore("system", () => {
   // 页面中的查询参数
   const queryInfo = ref({
-    pageSize: 10,
-    currentPage: 1
+    size: 10,
+    offset: 0
   })
   const usersList = ref([])
   const usersCount = ref(0)
@@ -20,13 +22,16 @@ const useSystemStore = defineStore("system", () => {
   const goodsCount = ref(0)
   const menuList = ref([])
   const menuCount = ref(0)
+  const departmentList = ref([])
+  const departmentCount = ref(0)
 
   // 建立pageName和对应数据的映射关系
   const pageNameMap = {
     users: [usersList, usersCount],
     role: [roleList, roleCount],
     goods: [goodsList, goodsCount],
-    menu: [menuList, menuCount]
+    menu: [menuList, menuCount],
+    department: [departmentList, departmentCount]
   }
 
   const getPageListAction = async (payload: IPageListQuery) => {
@@ -41,6 +46,28 @@ const useSystemStore = defineStore("system", () => {
     // 根据pageName保存映射关系表中对应的数据
     pageNameMap[`${pageName}`][0].value = list
     pageNameMap[`${pageName}`][1].value = totalCount
+  }
+
+  // 新增表格数据
+  const createPageDataAction = async (payload: any) => {
+    // 发送新增数据请求
+    const { pageName, newData } = payload
+    const url = `/${pageName}`
+    await createPageData(url, newData)
+
+    // 刷新表格数据
+    getPageListAction({ pageName, queryInfo: queryInfo.value })
+  }
+
+  // 编辑表格数据
+  const editPageDataAction = async (payload: any) => {
+    // 发送新增数据请求
+    const { pageName, editData, id } = payload
+    const url = `/${pageName}/${id}`
+    await editPageData(url, editData)
+
+    // 刷新表格数据
+    getPageListAction({ pageName, queryInfo: queryInfo.value })
   }
 
   // 删除表格数据
@@ -60,7 +87,11 @@ const useSystemStore = defineStore("system", () => {
     goodsCount,
     menuList,
     menuCount,
+    departmentList,
+    departmentCount,
     getPageListAction,
+    createPageDataAction,
+    editPageDataAction,
     deletePageListAction
   }
 })

@@ -8,6 +8,20 @@ export const getPageListData = (url: string, queryInfo: any) => {
   })
 }
 
+export const createPageData = (url: string, newData: any) => {
+  return ywRequest.post<IDataType>({
+    url,
+    data: newData
+  })
+}
+
+export const editPageData = (url: string, editData: any) => {
+  return ywRequest.patch<IDataType>({
+    url,
+    data: editData
+  })
+}
+
 export const deletePageListData = (url: string) => {
   return ywRequest.delete<IDataType>({
     url

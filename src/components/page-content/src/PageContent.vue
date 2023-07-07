@@ -6,6 +6,7 @@
       :show-add-btn="isAdd"
       :total="totalCount"
       :list-data="dataList"
+      @add="handleAdd"
     >
       <!-- 公用的表格插槽 -->
       <template #status="{ row }">
@@ -20,7 +21,13 @@
         {{ $filters.formatTime(row.updateAt) }}
       </template>
       <template v-if="isEdit || isDelete" #operate="{ row }">
-        <ElLink v-if="isEdit" type="primary" :underline="false" :icon="Edit">
+        <ElLink
+          v-if="isEdit"
+          type="primary"
+          :underline="false"
+          :icon="Edit"
+          @click="handleEdit(row)"
+        >
           编辑
         </ElLink>
         &nbsp;
@@ -73,6 +80,7 @@ interface IProp {
   pageName: PageName
 }
 
+const emits = defineEmits(["add", "edit"])
 const props = defineProps<IProp>()
 const store = useSystemStore()
 
@@ -86,7 +94,10 @@ const paginationInfo = ref<IPagination>({
   pageSize: 10,
   currentPage: 1
 })
-watch(paginationInfo, () => getPageList())
+watch(paginationInfo, newValue => {
+  store.queryInfo = Object.assign({}, store.queryInfo, newValue)
+  getPageList()
+})
 
 // 发送请求得到表格数据
 const getPageList = (queryInfo: any = {}) => {
@@ -121,6 +132,14 @@ const handleDelete = (row: any) => {
 
   // 获取最新数据刷新表格
   getPageList(store.queryInfo)
+}
+
+const handleAdd = () => {
+  emits("add")
+}
+
+const handleEdit = (rowData: any) => {
+  emits("edit", rowData)
 }
 
 defineExpose({ getPageList })
