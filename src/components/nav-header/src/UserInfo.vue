@@ -15,7 +15,7 @@
         <ElDropdownMenu>
           <ElDropdownItem>设置</ElDropdownItem>
           <ElDropdownItem>个人中心</ElDropdownItem>
-          <ElDropdownItem>退出登录</ElDropdownItem>
+          <ElDropdownItem @click="handelLogout">退出登录</ElDropdownItem>
         </ElDropdownMenu>
       </template>
     </ElDropdown>
@@ -24,11 +24,21 @@
 
 <script setup lang="ts">
 import { computed } from "vue"
+import { useRouter } from "vue-router"
 import { useLoginStore } from "@/store"
+import ls from "@/utils/cache"
 import MenuIcon from "@/base-ui/menuIcon"
 
 const store = useLoginStore()
+const router = useRouter()
 const name = computed(() => store.userInfo.name)
+
+const handelLogout = () => {
+  // 退出时清空 token 记录
+  ls.deleteCache("token")
+  // 跳转到登录界面
+  router.replace("/login")
+}
 </script>
 
 <style scoped lang="less">

@@ -52,6 +52,10 @@ const useLoginStore = defineStore("login", () => {
     // 根据菜单信息获取用户按钮权限
     permissions.value = mapMenusToPermission(menus)
     localCache.setCache("permissions", permissions.value)
+
+    // 初始化部门和角色列表
+    const systemStore = useSystemStore()
+    systemStore.initDataAction()
   }
 
   const phoneLoginAction = (payload: IPhoneLogin) => {
@@ -77,20 +81,7 @@ const useLoginStore = defineStore("login", () => {
 
     // 初始化部门和角色列表
     const systemStore = useSystemStore()
-    systemStore.getPageListAction({
-      pageName: "department",
-      queryInfo: {
-        size: 100,
-        offset: 0
-      }
-    })
-    systemStore.getPageListAction({
-      pageName: "role",
-      queryInfo: {
-        size: 100,
-        offset: 0
-      }
-    })
+    systemStore.initDataAction()
   }
 
   return {

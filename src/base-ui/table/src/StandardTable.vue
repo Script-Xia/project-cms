@@ -129,11 +129,11 @@ const handleAddData = () => {
 
 // 分页器页数和每页展示数量变化时调用
 const handleSizeChange = (pageSize: number) => {
-  store.queryInfo.pageSize = pageSize
+  store.queryInfo.size = pageSize
   emits("update:pagination", { ...props.pagination, pageSize })
 }
 const handleCurrentChange = (currentPage: number) => {
-  store.queryInfo.currentPage = currentPage
+  store.queryInfo.offset = (currentPage - 1) * store.queryInfo.size
   emits("update:pagination", { ...props.pagination, currentPage })
 }
 </script>

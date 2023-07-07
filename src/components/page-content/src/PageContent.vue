@@ -129,9 +129,6 @@ const handleDelete = (row: any) => {
     id: row.id,
     pageName: props.pageName
   })
-
-  // 获取最新数据刷新表格
-  getPageList(store.queryInfo)
 }
 
 const handleAdd = () => {

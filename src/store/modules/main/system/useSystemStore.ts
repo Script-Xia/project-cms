@@ -48,6 +48,17 @@ const useSystemStore = defineStore("system", () => {
     pageNameMap[`${pageName}`][1].value = totalCount
   }
 
+  const initDataAction = () => {
+    getPageListAction({
+      pageName: "department",
+      queryInfo: queryInfo.value
+    })
+    getPageListAction({
+      pageName: "role",
+      queryInfo: queryInfo.value
+    })
+  }
+
   // 新增表格数据
   const createPageDataAction = async (payload: any) => {
     // 发送新增数据请求
@@ -75,6 +86,9 @@ const useSystemStore = defineStore("system", () => {
     const { id, pageName } = payload
     const url = `/${pageName}/${id}`
     deletePageListData(url)
+
+    // 刷新表格数据
+    getPageListAction({ pageName, queryInfo: queryInfo.value })
   }
 
   return {
@@ -90,6 +104,7 @@ const useSystemStore = defineStore("system", () => {
     departmentList,
     departmentCount,
     getPageListAction,
+    initDataAction,
     createPageDataAction,
     editPageDataAction,
     deletePageListAction
